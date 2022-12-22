@@ -61,7 +61,6 @@ for i = 1:m
     invR(i+1,i+1) = 1/alpha;
 
     % check whether we are exceeding the threshold
-    % disp([abs(R(i+1,i+1)/R(1,1)), 1/cond(R(1:i+1,1:i+1))])
     if (max(abs(invR(i+1,:))) > 1/tol)
         warning("Ill-conditioning detected at iteration %d\n", i);
         wellCond = i;

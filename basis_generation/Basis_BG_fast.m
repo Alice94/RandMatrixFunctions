@@ -67,9 +67,7 @@ function [Q, H, R] = Basis_BG_fast(n,A,b,m,thetagenfun,lssolver,lowprecision)
         % Perform RGS iteration.
         w = A(q);
     
-%         tic;
         p = Theta(w);
-%         tottime = tottime + toc;
         P(:,initer+1) = p;
 
         r = leastsquares(S,p,lssolver,initer);
@@ -80,10 +78,7 @@ function [Q, H, R] = Basis_BG_fast(n,A,b,m,thetagenfun,lssolver,lowprecision)
             s = Theta(double(q));
         else
             q = w -Q*r;
-%             tic;
-            % s = Theta(q);
-            s = p - S*r; % CHANGED HERE
-%             tottime = tottime + toc;
+            s = p - S*r;
         end
 
         r(initer+1) = norm(s);

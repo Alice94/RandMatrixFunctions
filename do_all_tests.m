@@ -33,7 +33,7 @@ PlotWithTime;
 
 %% Figure 2
 % Exponential of toeplitz matrix from option princing problem
-n = 700; 
+n = 7000; 
 [C, R] = exampleOptionPricing(n);
 A = toeplitz(C, R);
 Afun = @(x) ttimes(C, R, x);
