@@ -5,6 +5,7 @@ This repository contains the code for reproducing the numerical examples in the 
 The following toolboxes are needed to run the tests:
 - sketched_fAb code https://github.com/MarcelSchweitzer/sketched_fAb
 - Blendenpik https://github.com/haimav/Blendenpik
+- funm_quad http://www.guettel.com/funm_quad/
 
 ## References
 https://arxiv.org/abs/2212.12758
