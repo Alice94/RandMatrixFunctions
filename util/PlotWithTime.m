@@ -55,6 +55,16 @@ if (algorithms(6) == 1)
     Legend1 = [Legend1; "Whiten  "];
 end
 
+if (algorithms(7) == 1)
+    subplot(1,2,1)
+    semilogy(ms, min(1, errArnoldiRestart), '-g*', 'linewidth', 1)
+    hold on
+    subplot(1,2,2)
+    plot(ms, timeArnoldiRestart, '-g*', 'linewidth', 1)
+    hold on
+    Legend1 = [Legend1; "Restart "];
+end
+
 Legend2 = Legend1;
 
 if (algorithms(5) == 1)

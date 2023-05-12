@@ -10,6 +10,7 @@ errNTW = [];
 errNTtrid = [];
 errBG = [];
 errsFOM = [];
+errArnoldiRestart = [];
 
 timeArnoldi = [];
 timeNTB = [];
@@ -17,6 +18,7 @@ timeNTW = [];
 timeNTtrid = [];
 timeBG = [];
 timesFOM = [];
+timeArnoldiRestart = [];
 
 for m = ms
     fprintf("-----------------------------m = %d-----------------------\n", m);
@@ -108,7 +110,40 @@ for m = ms
         fprintf("norm(A*V(:,1:m) - V*H) = %1.2e\n", norm(A*V(:,1:m) - V*H)) 
         fprintf("******* Condition number of V is %1.2e\n", cond(V))
     end
-    
+
+    if (algorithms(7) == 1)
+        % Restarted Arnoldi (every 20 iterations)
+        tic;
+        param.function = ff; 
+        param.max_restarts = round(m/param.restart_length);                % perform at most 20 restart cycles
+        if (mod(m, param.restart_length) ~= 0)
+            timeArnoldiRestart = [timeArnoldiRestart, NaN];
+            errArnoldiRestart = [errArnoldiRestart, NaN];
+            continue;
+        end
+        param.transformation_parameter = 1;     % parameter for the integral transformation
+        param.hermitian = 0;                    % set 0 if A is not Hermitian
+        param.V_full = 0;                       % set 1 if you need Krylov basis
+        param.H_full = 0;                       % do not store all Hessenberg matrices
+        param.exact = [];                       % Exact solution. If not known set to []
+        param.stopping_accuracy = 0    ;        % stopping accuracy
+        param.inner_product = @(a,b) b'*a;      % use standard euclidean inner product
+        param.thick = [];                       % no implicit deflation is performed
+        param.min_decay = 0.95;                 % we desire linear error reduction of rate < .95 
+        param.waitbar = 0;                      % show waitbar 
+        param.reorth_number = 0;                % #reorthogonalizations
+        param.truncation_length = inf;          % truncation length for Arnoldi
+        param.verbose = 1;                      % print information about progress of algorithm
+        [y,out1] = funm_quad(A, b, param);
+%         [V, H] = Basis_ArnoldiRestart(n, Afun, b, m, restart_dim);
+%         mm = size(H,2);
+%         y = V(:,1:mm) * f(H(1:mm, :), [1; zeros(mm-1, 1)]);
+        timeArnoldiRestart = [timeArnoldiRestart, toc];
+        errArnoldiRestart = [errArnoldiRestart, norm(y - y_ex)/norm(y_ex)];
+        fprintf("Error of restarted Arnoldi for dimension %d is %1.2e, time is %1.2f\n", ...
+            mm, errArnoldiRestart(end), timeArnoldiRestart(end));
+    end
+
 end
 
 %%
@@ -118,4 +153,5 @@ end
 
 save(NAME, 'algorithms', 'ms', 'timeArnoldi', 'errArnoldi', ...
     'timeBG', 'errBG', 'timeNTB', 'errNTB', 'timeNTtrid', ...
-    'errNTtrid', 'timeNTW', 'errNTW', 'timesFOM', 'errsFOM');
+    'errNTtrid', 'timeNTW', 'errNTW', 'timesFOM', 'errsFOM', ...
+    'errArnoldiRestart', 'timeArnoldiRestart');

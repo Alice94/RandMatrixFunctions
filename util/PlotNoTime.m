@@ -39,6 +39,12 @@ if (algorithms(6) == 1)
     Legend = [Legend; "Whiten  "];
 end
 
+if (algorithms(7) == 1)
+    semilogy(ms, min(1, errArnoldiRestart), '-g*', 'linewidth', 1)
+    hold on
+    Legend = [Legend; "Restart "];
+end
+
 
 
 xlabel('m');
