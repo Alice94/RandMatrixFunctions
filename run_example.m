@@ -112,10 +112,10 @@ for m = ms
     end
 
     if (algorithms(7) == 1)
-        % Restarted Arnoldi (every 20 iterations)
+        % Restarted Arnoldi
         tic;
         param.function = ff; 
-        param.max_restarts = round(m/param.restart_length);                % perform at most 20 restart cycles
+        param.max_restarts = round(m/param.restart_length);                
         if (mod(m, param.restart_length) ~= 0)
             timeArnoldiRestart = [timeArnoldiRestart, NaN];
             errArnoldiRestart = [errArnoldiRestart, NaN];
@@ -135,9 +135,6 @@ for m = ms
         param.truncation_length = inf;          % truncation length for Arnoldi
         param.verbose = 1;                      % print information about progress of algorithm
         [y,out1] = funm_quad(A, b, param);
-%         [V, H] = Basis_ArnoldiRestart(n, Afun, b, m, restart_dim);
-%         mm = size(H,2);
-%         y = V(:,1:mm) * f(H(1:mm, :), [1; zeros(mm-1, 1)]);
         timeArnoldiRestart = [timeArnoldiRestart, toc];
         errArnoldiRestart = [errArnoldiRestart, norm(y - y_ex)/norm(y_ex)];
         fprintf("Error of restarted Arnoldi for dimension %d is %1.2e, time is %1.2f\n", ...

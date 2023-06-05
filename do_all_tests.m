@@ -29,7 +29,7 @@ param.tol = 1e-14;
 mm = size(H,2);
 y_ex = V(:,1:mm) * f(H(1:mm, :), [1; zeros(mm-1, 1)]);
 ms = 20:20:500;     
-param.restart_length = 20; % tolerance for quadrature rule
+param.restart_length = 20; 
 algorithms = [1, 1, 1, 1, 1, 0, 1];
 
 NAME = "ConvDiff1";
