@@ -9,3 +9,5 @@ The following toolboxes are needed to run the tests:
 
 ## References
 https://arxiv.org/abs/2212.12758
+
+[![DOI](https://zenodo.org/badge/581131563.svg)](https://doi.org/10.5281/zenodo.15159067)
